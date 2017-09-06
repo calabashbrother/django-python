@@ -9,7 +9,7 @@
 	
 
 	默认http://127.0.0.1:8000
-    更换端口 python manage.py runserver 8888(http://127.0.0.1:8888)
+        更换端口 python manage.py runserver 8888(http://127.0.0.1:8888)
    
 
 - 安装mysqlclient
