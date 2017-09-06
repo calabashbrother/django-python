@@ -5,10 +5,12 @@
 {% block main %}
 <div style="text-align: center;">
     <p>hello</p>
-    <p>{{ name.name }}</p>
     <p>{{ now }}</p>
+    <p>{{ name }}</p>
     <p>{{ request.path_info }}</p>
     <p>{{ host }}</p>
+    <p>{{ users }}</p>
+    <p>{{ users.query }}</p>
 </div>
 
 <style>

@@ -1,5 +1,10 @@
 #! /usr/bin/env python3
 # __*__ encoding: utf-8 __*__
+
+'''
+schema
+
+'''
 from django.db import models
 
 class User(models.Model):
@@ -10,5 +15,5 @@ class User(models.Model):
     email = models.CharField(max_length=20)
     cellphone = models.CharField(max_length=15)
 
-    def _str__(self):
-        return self.name
+    def __str__(self):
+        return self.user_name
