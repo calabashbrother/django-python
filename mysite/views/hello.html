@@ -3,8 +3,17 @@
     HELLO WORLD!
 {% endblock %}
 {% block main %}
+<div style="text-align: center;">
     <p>hello</p>
     <p>{{ name.name }}</p>
     <p>{{ now }}</p>
-    <p></p>
+    <p>{{ request.path_info }}</p>
+    <p>{{ host }}</p>
+</div>
+
+<style>
+    div{
+        font-size: 20px;
+    }
+</style>
 {% endblock %}
