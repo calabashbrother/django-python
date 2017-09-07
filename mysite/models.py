@@ -13,6 +13,7 @@ class User(models.Model):
     user_id = models.CharField(max_length=12)
     user_name = models.CharField(max_length=10)
     email = models.CharField(max_length=20)
+    password = models.CharField(max_length=32)
     cellphone = models.CharField(max_length=15)
 
     def __str__(self):
