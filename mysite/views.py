@@ -45,12 +45,12 @@ def md5(strs):
     m.update(strs)
     return m.hexdigest()
 def userReg(request):
-    if request.method == POST:
+    if request.method == 'POST':
         verify_code = request.session['verify_code']
         input_verify = request.POST['verify']
         returndata = {}
         # 检查验证码
-        if verify_code != input_verify:
+        if verify_code.lower() != input_verify.lower():
             returndata = {'code': 100, 'msg': '验证码错误'}
         # 检查用户名是否存在
         userinfo = User.objects.filter(user_name=request.POST['username']).exists()
@@ -65,7 +65,7 @@ def userReg(request):
         returndata = {'code': 200, 'msg': '注册成功'}
         return HttpResponse(json.dumps(returndata),'application/json')
     else:
-    return TemplateResponse(request, 'reg.html')
+        return TemplateResponse(request, 'reg.html')
     # username = request.POST['username']
     # # return HttpResponse(username, content_type='application/json')
     # user = User.objects.filter(user_name=username)
