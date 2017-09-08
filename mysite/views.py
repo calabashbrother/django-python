@@ -45,6 +45,26 @@ def md5(strs):
     m.update(strs)
     return m.hexdigest()
 def userReg(request):
+    if request.method == POST:
+        verify_code = request.session['verify_code']
+        input_verify = request.POST['verify']
+        returndata = {}
+        # 检查验证码
+        if verify_code != input_verify:
+            returndata = {'code': 100, 'msg': '验证码错误'}
+        # 检查用户名是否存在
+        userinfo = User.objects.filter(user_name=request.POST['username']).exists()
+        if userinfo:
+            returndata = {'code':101, 'msg': '用户名已存在'}
+        if returndata:
+            return HttpResponse(json.dumps(returndata),'application/json')
+        user = User()
+        user.user_name = request.POST['username']
+        user.password = md5(request.POST['password'])
+        user.save()
+        returndata = {'code': 200, 'msg': '注册成功'}
+        return HttpResponse(json.dumps(returndata),'application/json')
+    else:
     return TemplateResponse(request, 'reg.html')
     # username = request.POST['username']
     # # return HttpResponse(username, content_type='application/json')
@@ -77,6 +97,7 @@ def verify(request):
     font = ImageFont.truetype(font_file, 47) # the font object  
     draw = ImageDraw.Draw(image)   
     rand_str = ''.join(random.sample(string.ascii_letters + string.digits, 4)) # The random string  
+    request.session['verify_code'] = rand_str
     draw.text((7, 0), rand_str, fill=(0, 0, 0), font=font) # position, content, color, font  
     del draw  
     request.session['captcha'] = rand_str.lower() # store the content in Django's session store  
