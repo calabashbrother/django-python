@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^userReg', userReg),
     url(r'^home/', home),
     url(r'^verify/', verify),
+    url(r'^userlist/', userlist),
     url(r'^$', login)
 ]

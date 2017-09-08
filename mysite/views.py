@@ -4,13 +4,14 @@ import datetime
 from mysite.models import User
 import json
 import io
-from PIL import Image, ImageDraw, ImageFont   
-from mysite.settings import BASE_DIR  
-import string, os, random  
+from PIL import Image, ImageDraw, ImageFont
+from mysite.settings import BASE_DIR
+import string, os, random
+from mysite.controller.user import *
 def hello(request):
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     name = '%s' % ('show')
-    
+
     users = User.objects.all().filter(user_name='admin').values()
     # 获取model执行的sql语句
     sql = users.query
@@ -90,17 +91,17 @@ def login(request):
 def home(request):
     return TemplateResponse(request, 'home.html')
 
-def verify(request):  
-    '''Captcha'''  
-    image = Image.new('RGB', (147, 49), color = (255, 255, 255)) # model, size, background color  
-    font_file = os.path.join(BASE_DIR, 'static/fonts/ARIALN.TTF') # choose a font file  
-    font = ImageFont.truetype(font_file, 47) # the font object  
-    draw = ImageDraw.Draw(image)   
-    rand_str = ''.join(random.sample(string.ascii_letters + string.digits, 4)) # The random string  
+def verify(request):
+    '''Captcha'''
+    image = Image.new('RGB', (147, 49), color = (255, 255, 255)) # model, size, background color
+    font_file = os.path.join(BASE_DIR, 'static/fonts/ARIALN.TTF') # choose a font file
+    font = ImageFont.truetype(font_file, 47) # the font object
+    draw = ImageDraw.Draw(image)
+    rand_str = ''.join(random.sample(string.ascii_letters + string.digits, 4)) # The random string
     request.session['verify_code'] = rand_str
-    draw.text((7, 0), rand_str, fill=(0, 0, 0), font=font) # position, content, color, font  
-    del draw  
-    request.session['captcha'] = rand_str.lower() # store the content in Django's session store  
-    buf = io.BytesIO() # a memory buffer used to store the generated image  
-    image.save(buf, 'jpeg')  
-    return HttpResponse(buf.getvalue(), 'image/jpeg') # return the image data stream as image/jpeg format, browser will treat it as an image  
+    draw.text((7, 0), rand_str, fill=(0, 0, 0), font=font) # position, content, color, font
+    del draw
+    request.session['captcha'] = rand_str.lower() # store the content in Django's session store
+    buf = io.BytesIO() # a memory buffer used to store the generated image
+    image.save(buf, 'jpeg')
+    return HttpResponse(buf.getvalue(), 'image/jpeg') # return the image data stream as image/jpeg format, browser will treat it as an image
